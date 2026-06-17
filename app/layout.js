@@ -54,7 +54,7 @@ export const metadata = {
       "Sites web modernes et CRM sur mesure pour les entreprises de la Sarthe et des Pays de la Loire. Devis gratuit sous 24h.",
     images: [
       {
-        url: "/og-image.jpg", // ⚠️ à créer (1200x630px) et placer dans /public
+        url: "/og-image.jpg", // 1200x630px — présent dans /public
         width: 1200,
         height: 630,
         alt: "Webaly — Création de sites web",

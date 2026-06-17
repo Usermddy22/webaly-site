@@ -706,18 +706,29 @@ const SideIcon=({n})=>{
     default:return null;
   }
 };
+const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const Contact=()=>{
   const[status,sStatus]=useState("idle"); // idle | sending | sent | error
   const[form,sForm]=useState({prenom:"",nom:"",email:"",tel:"",projet:"",message:""});
-  const iS={width:"100%",background:C.bgAlt,border:`1.5px solid ${C.border}`,borderRadius:8,padding:".7rem 1rem",fontSize:".9rem",color:C.charcoal,outline:"none"};
+  const[errs,sErrs]=useState({}); // {prenom,email,tel}
+  const[focus,sFocus]=useState("");
+  const iS={width:"100%",background:C.bgAlt,border:`1.5px solid ${C.border}`,borderRadius:8,padding:".7rem 1rem",fontSize:".9rem",color:C.charcoal,outline:"none",transition:"border-color .15s"};
   const lS={display:"block",fontSize:".8rem",fontWeight:600,color:C.slate,marginBottom:".4rem"};
-  const onF=e=>e.target.style.borderColor=C.indigo;
-  const onB=e=>e.target.style.borderColor=C.border;
-  const upd=k=>e=>sForm(f=>({...f,[k]:e.target.value}));
+  // Bordure : bleu si focus, rouge si erreur, gris sinon
+  const fS=k=>({...iS,borderColor:focus===k?C.indigo:(errs[k]?C.danger:C.border)});
+  const fp=k=>({onFocus:()=>sFocus(k),onBlur:()=>sFocus("")});
+  // À chaque frappe : on met à jour, on efface l'erreur du champ et le message global
+  const upd=k=>e=>{const v=e.target.value;sForm(f=>({...f,[k]:v}));if(errs[k])sErrs(x=>({...x,[k]:false}));if(status==="error")sStatus("idle");};
 
   const submit=async()=>{
-    // Validation : prénom, email et téléphone obligatoires
-    if(!form.prenom||!form.email||!form.tel){sStatus("error");return;}
+    // Validation : prénom requis, email et téléphone obligatoires + format vérifié
+    const telDigits=form.tel.replace(/\D/g,"");
+    const e={
+      prenom:!form.prenom.trim(),
+      email:!EMAIL_RE.test(form.email.trim()),
+      tel:telDigits.length<8||telDigits.length>15,
+    };
+    if(e.prenom||e.email||e.tel){sErrs(e);sStatus("error");return;}
     sStatus("sending");
     try{
       await fetch(SCRIPT_URL,{
@@ -771,25 +782,25 @@ const Contact=()=>{
             ):(
               <div>
                 <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,190px),1fr))",gap:"1rem",marginBottom:"1rem"}} className="frow">
-                  <div><label style={lS}>Prénom *</label><input value={form.prenom} onChange={upd("prenom")} placeholder="Jean" style={iS} onFocus={onF} onBlur={onB}/></div>
-                  <div><label style={lS}>Nom</label><input value={form.nom} onChange={upd("nom")} placeholder="Dupont" style={iS} onFocus={onF} onBlur={onB}/></div>
+                  <div><label style={lS}>Prénom *</label><input value={form.prenom} onChange={upd("prenom")} placeholder="Jean" style={fS("prenom")} {...fp("prenom")}/></div>
+                  <div><label style={lS}>Nom</label><input value={form.nom} onChange={upd("nom")} placeholder="Dupont" style={fS("nom")} {...fp("nom")}/></div>
                 </div>
-                <div style={{marginBottom:"1rem"}}><label style={lS}>Email *</label><input type="email" value={form.email} onChange={upd("email")} placeholder="vous@votreentreprise.fr" style={iS} onFocus={onF} onBlur={onB}/></div>
-                <div style={{marginBottom:"1rem"}}><label style={lS}>Téléphone *</label><input type="tel" value={form.tel} onChange={upd("tel")} placeholder="06 00 00 00 00" style={iS} onFocus={onF} onBlur={onB}/></div>
+                <div style={{marginBottom:"1rem"}}><label style={lS}>Email *</label><input type="email" value={form.email} onChange={upd("email")} placeholder="vous@votreentreprise.fr" style={fS("email")} {...fp("email")}/></div>
+                <div style={{marginBottom:"1rem"}}><label style={lS}>Téléphone *</label><input type="tel" value={form.tel} onChange={upd("tel")} placeholder="06 00 00 00 00" style={fS("tel")} {...fp("tel")}/></div>
                 <div style={{marginBottom:"1rem"}}>
                   <label style={lS}>Type de projet</label>
-                  <select value={form.projet} onChange={upd("projet")} style={{...iS,cursor:"pointer"}}>
+                  <select value={form.projet} onChange={upd("projet")} style={{...fS("projet"),cursor:"pointer"}} {...fp("projet")}>
                     <option value="">Quel est votre besoin ?</option>
                     {["Création de site vitrine","Boutique e-commerce","Site + CRM sur mesure","Refonte stratégique","Référencement local","Autre (maintenance, SEO…)"].map(o=><option key={o}>{o}</option>)}
                   </select>
                 </div>
                 <div style={{marginBottom:"1.25rem"}}>
                   <label style={lS}>Votre contexte</label>
-                  <textarea value={form.message} onChange={upd("message")} placeholder="Décrivez votre activité, vos objectifs, ce qui bloque actuellement…" style={{...iS,minHeight:100,resize:"vertical"}} onFocus={onF} onBlur={onB}/>
+                  <textarea value={form.message} onChange={upd("message")} placeholder="Décrivez votre activité, vos objectifs, ce qui bloque actuellement…" style={{...fS("message"),minHeight:100,resize:"vertical"}} {...fp("message")}/>
                 </div>
                 {status==="error"&&(
                   <div style={{marginBottom:"1rem",padding:".7rem 1rem",background:"#FEF2F2",border:`1px solid ${C.danger}33`,borderRadius:8,fontSize:".82rem",color:C.danger,fontWeight:600}}>
-                    {!form.prenom||!form.email||!form.tel?"Merci de renseigner votre prénom, votre email et votre téléphone.":"Une erreur est survenue. Réessayez ou contactez-moi directement par email."}
+                    {errs.prenom||(!form.email||!form.tel)?"Merci de renseigner votre prénom, un email et un téléphone valides.":"Vérifiez le format de votre email et de votre numéro de téléphone."}
                   </div>
                 )}
                 <Btn s={{width:"100%",textAlign:"center",display:"block",opacity:status==="sending"?.7:1,pointerEvents:status==="sending"?"none":"auto"}} onClick={submit}>
