@@ -53,6 +53,11 @@ const KF=`
 @keyframes countUp{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
 @keyframes wipeIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0% 0 0)}}
 @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,.35)}60%{box-shadow:0 0 0 8px rgba(79,70,229,0)}}
+@keyframes checkDraw{from{stroke-dashoffset:40}to{stroke-dashoffset:0}}
+@keyframes popIn{0%{opacity:0;transform:scale(.4) rotate(-12deg)}70%{opacity:1;transform:scale(1.08) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:0}15%{opacity:1}100%{transform:translateY(120px) rotate(360deg);opacity:0}}
+@keyframes ringExpand{0%{transform:scale(.8);opacity:.8}100%{transform:scale(1.9);opacity:0}}
+@keyframes haloSpin{to{transform:rotate(360deg)}}
 `;
 
 const GLOBAL=`
@@ -65,6 +70,11 @@ button,input,select,textarea{font-family:inherit}
 .only-mob{display:none}
 @media(max-width:900px){
   .svc-grid{grid-template-columns:repeat(2,1fr)!important}
+  .ctc-grid{grid-template-columns:1fr!important}
+  .ctc-side{display:none!important}
+}
+@media(min-width:901px){
+  .ctc-grid{grid-template-columns:1.15fr .85fr!important}
 }
 @media(max-width:768px){
   .dn-mob{display:none!important}
@@ -714,13 +724,21 @@ const Contact=()=>{
         <FU d={.05}><H2>Parlons de ce que <span style={{color:C.indigo}}>vous voulez vraiment accomplir</span></H2></FU>
         <FU d={.1}><Sub>Pas de formulaire standardisé, pas de réponse automatique. Je vous lis personnellement et vous réponds sous 24h.</Sub></FU>
         <FU d={.15}>
-          <div style={{background:C.bgCard,border:`1px solid ${C.border}`,borderRadius:20,padding:"clamp(1.5rem,5vw,2.5rem)",maxWidth:640,boxShadow:"0 8px 40px rgba(0,0,0,.07)"}}>
+          <div className="ctc-grid" style={{display:"grid",gridTemplateColumns:"1.15fr .85fr",gap:0,maxWidth:980,borderRadius:22,overflow:"hidden",boxShadow:"0 12px 50px rgba(28,25,23,.1)",border:`1px solid ${C.border}`}}>
+            <div style={{background:C.bgCard,padding:"clamp(1.5rem,5vw,2.75rem)",position:"relative"}}>
             {status==="sent"?(
-              <div style={{textAlign:"center",padding:"2.5rem 1rem"}}>
-                <div style={{width:64,height:64,background:`linear-gradient(135deg,${C.indigo},${C.gold})`,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 1.5rem",animation:"glowPulse 2s ease-in-out infinite"}}>
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              <div style={{textAlign:"center",padding:"1.5rem .5rem",position:"relative",overflow:"hidden"}}>
+                {["8%","22%","38%","55%","70%","85%"].map((l,i)=>(
+                  <span key={i} style={{position:"absolute",top:-10,left:l,width:8,height:8,borderRadius:i%2?2:"50%",background:[C.indigo,C.gold,"#EC4899",C.success][i%4],animation:`confettiFall ${1.6+i*.2}s ${i*.12}s ease-in infinite`}}/>
+                ))}
+                <div style={{position:"relative",width:78,height:78,margin:"0 auto 1.5rem"}}>
+                  <span style={{position:"absolute",inset:0,borderRadius:"50%",border:`2px solid ${C.indigo}55`,animation:"ringExpand 1.8s ease-out infinite"}}/>
+                  <span style={{position:"absolute",inset:-6,borderRadius:"50%",background:`conic-gradient(${C.indigo},${C.gold},#EC4899,${C.indigo})`,opacity:.25,animation:"haloSpin 4s linear infinite"}}/>
+                  <div style={{position:"relative",width:78,height:78,background:`linear-gradient(135deg,${C.indigo},${C.gold})`,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",animation:"popIn .6s cubic-bezier(.22,1.4,.36,1) both, glowPulse 2.2s ease-in-out 1s infinite"}}>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{strokeDasharray:40,animation:"checkDraw .6s .35s ease-out both"}}><path d="M20 6 9 17l-5-5"/></svg>
+                  </div>
                 </div>
-                <h3 style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.4rem",fontWeight:800,color:C.charcoal,marginBottom:".6rem"}}>Merci {form.prenom} ! 🎉</h3>
+                <h3 style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.55rem",fontWeight:800,marginBottom:".6rem",background:`linear-gradient(270deg,${C.indigo},${C.gold},#EC4899,${C.indigo})`,backgroundSize:"300% 100%",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",animation:"gradTextAnim 4s ease infinite"}}>Merci {form.prenom} ! 🎉</h3>
                 <p style={{color:C.muted,lineHeight:1.7,maxWidth:380,margin:"0 auto"}}>
                   Votre demande est bien arrivée. Je l'étudie personnellement et je vous réponds <strong style={{color:C.indigo}}>sous 24h</strong> — souvent bien plus vite.
                 </p>
@@ -757,6 +775,29 @@ const Contact=()=>{
                 </Btn>
               </div>
             )}
+            </div>
+            <div className="ctc-side" style={{background:`linear-gradient(160deg,${C.indigoDk},${C.indigo})`,padding:"clamp(1.5rem,4vw,2.25rem)",color:"#fff",display:"flex",flexDirection:"column",justifyContent:"space-between",position:"relative",overflow:"hidden"}}>
+              <div style={{position:"absolute",top:-60,right:-60,width:180,height:180,borderRadius:"50%",background:"rgba(245,158,11,.18)",filter:"blur(10px)",animation:"floatY 5s ease-in-out infinite"}}/>
+              <div style={{position:"relative",zIndex:1}}>
+                <div style={{fontFamily:"'Poppins',sans-serif",fontWeight:800,fontSize:"1.15rem",marginBottom:"1.25rem"}}>Pourquoi me contacter ?</div>
+                {[
+                  {ico:"⚡",t:"Réponse rapide",d:"Sous 24h, parfois en quelques heures."},
+                  {ico:"🎯",t:"Échange direct",d:"Pas d'intermédiaire, pas de formulaire robotisé."},
+                  {ico:"🛡️",t:"Sans engagement",d:"On clarifie d'abord votre besoin réel."},
+                ].map((it,i)=>(
+                  <div key={i} style={{display:"flex",gap:".75rem",alignItems:"flex-start",marginBottom:"1.1rem"}}>
+                    <span style={{fontSize:"1.15rem",lineHeight:1}}>{it.ico}</span>
+                    <div>
+                      <div style={{fontWeight:700,fontSize:".9rem",marginBottom:".15rem"}}>{it.t}</div>
+                      <div style={{fontSize:".8rem",opacity:.78,lineHeight:1.5}}>{it.d}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{position:"relative",zIndex:1,paddingTop:"1.5rem",borderTop:"1px solid rgba(255,255,255,.18)",fontSize:".78rem",opacity:.85,lineHeight:1.6}}>
+                « Réponse claire, sans jargon, sous 24h. »
+              </div>
+            </div>
           </div>
         </FU>
       </div>
