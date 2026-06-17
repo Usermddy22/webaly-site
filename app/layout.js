@@ -5,8 +5,8 @@
 
 const SITE_URL = "https://www.webaly.fr"; // ⚠️ ton vrai domaine une fois acheté
 const BUSINESS_NAME = "Webaly";
-const PHONE = "+33600000000"; // ⚠️ ton numéro
-const EMAIL = "contact@webaly.fr"; // ⚠️ ton email
+const PHONE = "+33771555338"; // 07 71 55 53 38
+const EMAIL = "contact@webaly.fr";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),

@@ -906,23 +906,40 @@ const Footer=()=>{
             <div style={{padding:"1.75rem",fontSize:".85rem",color:C.slate,lineHeight:1.8}}>
               {modal==="legal"?(
                 <>
-                  <p style={{marginBottom:"1rem",padding:".75rem 1rem",background:C.goldLt,borderRadius:8,fontSize:".78rem",color:C.warn,fontWeight:600}}>⚠ Modèle à compléter avec vos informations réelles avant mise en ligne.</p>
                   <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Éditeur du site</p>
-                  <p style={{marginBottom:"1rem"}}>Webaly — [Votre nom / raison sociale]<br/>SIRET : [à compléter]<br/>Adresse : [à compléter]<br/>Email : [à compléter] · Tél : [à compléter]</p>
+                  <p style={{marginBottom:"1rem"}}>Webaly — entreprise individuelle (auto-entrepreneur)<br/>Immatriculation en cours (SIRET à venir)<br/>Email : contact@webaly.fr<br/>Téléphone : 07 71 55 53 38</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Directeur de la publication</p>
+                  <p style={{marginBottom:"1rem"}}>Le représentant légal de Webaly.</p>
                   <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Hébergement</p>
-                  <p style={{marginBottom:"1rem"}}>[Nom de l'hébergeur, ex. Vercel Inc.]<br/>[Adresse de l'hébergeur]</p>
+                  <p style={{marginBottom:"1rem"}}>Netlify, Inc.<br/>512 2nd Street, Suite 200, San Francisco, CA 94107, États-Unis<br/>netlify.com</p>
                   <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Propriété intellectuelle</p>
-                  <p>L'ensemble des contenus de ce site (textes, visuels, code) est la propriété de Webaly, sauf mention contraire. Toute reproduction sans autorisation est interdite.</p>
+                  <p style={{marginBottom:"1rem"}}>L'ensemble des contenus de ce site (textes, visuels, code, identité graphique) est la propriété exclusive de Webaly, sauf mention contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation écrite préalable est interdite et constitue une contrefaçon.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Responsabilité</p>
+                  <p style={{marginBottom:"1rem"}}>Webaly s'efforce d'assurer l'exactitude des informations diffusées sur ce site, sans pouvoir en garantir l'exhaustivité. La responsabilité de Webaly ne saurait être engagée en cas d'indisponibilité temporaire du site ou de dommages résultant de son utilisation.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Liens hypertextes</p>
+                  <p style={{marginBottom:"1rem"}}>Ce site peut contenir des liens vers des sites tiers. Webaly n'exerce aucun contrôle sur ces ressources externes et décline toute responsabilité quant à leur contenu.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Droit applicable</p>
+                  <p>Les présentes mentions sont régies par le droit français. Tout litige relève de la compétence des tribunaux français.</p>
                 </>
               ):(
                 <>
-                  <p style={{marginBottom:"1rem",padding:".75rem 1rem",background:C.goldLt,borderRadius:8,fontSize:".78rem",color:C.warn,fontWeight:600}}>⚠ Modèle à adapter selon votre usage réel des données.</p>
+                  <p style={{marginBottom:"1.25rem"}}>Webaly accorde une grande importance à la protection de vos données personnelles. La présente politique décrit, conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi « Informatique et Libertés », la manière dont vos données sont collectées et traitées.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Responsable du traitement</p>
+                  <p style={{marginBottom:"1rem"}}>Webaly — entreprise individuelle. Contact : contact@webaly.fr · 07 71 55 53 38.</p>
                   <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Données collectées</p>
-                  <p style={{marginBottom:"1rem"}}>Les informations saisies dans le formulaire de contact (nom, email, téléphone, message) sont utilisées uniquement pour répondre à votre demande. Elles ne sont jamais revendues.</p>
-                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Conservation</p>
-                  <p style={{marginBottom:"1rem"}}>Vos données sont conservées le temps nécessaire au traitement de votre demande, puis supprimées.</p>
-                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Vos droits (RGPD)</p>
-                  <p>Vous pouvez demander l'accès, la rectification ou la suppression de vos données à tout moment en écrivant à [votre email].</p>
+                  <p style={{marginBottom:"1rem"}}>Via le formulaire de contact : prénom, nom, adresse email, numéro de téléphone, type de projet et message. Aucune donnée sensible n'est demandée. Les champs marqués d'un astérisque sont obligatoires pour traiter votre demande.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Finalités &amp; base légale</p>
+                  <p style={{marginBottom:"1rem"}}>Vos données sont utilisées uniquement pour répondre à votre demande, établir un devis et assurer le suivi de notre relation commerciale. La base légale est votre consentement (envoi du formulaire) et l'intérêt légitime de Webaly à répondre aux sollicitations.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Destinataires</p>
+                  <p style={{marginBottom:"1rem"}}>Vos données sont destinées au seul responsable du traitement. Elles ne sont ni vendues, ni louées, ni cédées à des tiers à des fins commerciales. Elles peuvent transiter par nos prestataires techniques (hébergement, traitement du formulaire via Google) agissant comme sous-traitants.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Durée de conservation</p>
+                  <p style={{marginBottom:"1rem"}}>Vos données sont conservées le temps nécessaire au traitement de votre demande, puis pendant une durée maximale de 3 ans à compter de notre dernier contact, avant suppression. Les données liées à une relation contractuelle sont conservées selon les obligations légales applicables.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Cookies</p>
+                  <p style={{marginBottom:"1rem"}}>Ce site ne dépose pas de cookies publicitaires ni de traceurs de suivi à des fins marketing. Seuls les cookies strictement nécessaires au fonctionnement du site peuvent être utilisés.</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Vos droits</p>
+                  <p style={{marginBottom:"1rem"}}>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données. Vous pouvez exercer ces droits à tout moment en écrivant à <strong style={{color:C.indigo}}>contact@webaly.fr</strong>. Vous disposez également du droit d'introduire une réclamation auprès de la CNIL (www.cnil.fr).</p>
+                  <p style={{fontWeight:700,color:C.charcoal,marginBottom:".25rem"}}>Sécurité</p>
+                  <p>Webaly met en œuvre les mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès, altération ou divulgation non autorisés.</p>
                 </>
               )}
             </div>
