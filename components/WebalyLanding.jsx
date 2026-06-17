@@ -53,11 +53,10 @@ const KF=`
 @keyframes countUp{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
 @keyframes wipeIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0% 0 0)}}
 @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,.35)}60%{box-shadow:0 0 0 8px rgba(79,70,229,0)}}
-@keyframes checkDraw{from{stroke-dashoffset:40}to{stroke-dashoffset:0}}
-@keyframes popIn{0%{opacity:0;transform:scale(.4) rotate(-12deg)}70%{opacity:1;transform:scale(1.08) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
-@keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:0}15%{opacity:1}100%{transform:translateY(120px) rotate(360deg);opacity:0}}
-@keyframes ringExpand{0%{transform:scale(.8);opacity:.8}100%{transform:scale(1.9);opacity:0}}
-@keyframes haloSpin{to{transform:rotate(360deg)}}
+@keyframes checkDraw{to{stroke-dashoffset:0}}
+@keyframes circDraw{to{stroke-dashoffset:0}}
+@keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes ringExpand{0%{transform:scale(.85);opacity:.5}100%{transform:scale(1.7);opacity:0}}
 `;
 
 const GLOBAL=`
@@ -517,7 +516,19 @@ const Local=()=>(
 );
 
 /* ─── CRM ─────────────────────────────────────────────────── */
-const TABS=["📊 Dashboard","🔄 Pipeline","👥 Leads","💰 Facturation","📈 Perfs","🔔 Relances"];
+const TabIcon=({n})=>{
+  const p={width:15,height:15,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round",style:{flexShrink:0}};
+  switch(n){
+    case"dash":return <svg {...p}><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>;
+    case"pipe":return <svg {...p}><rect x="3" y="5" width="5" height="14" rx="1"/><rect x="9.5" y="5" width="5" height="9" rx="1"/><rect x="16" y="5" width="5" height="11" rx="1"/></svg>;
+    case"leads":return <svg {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.5"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.5a4 4 0 0 1 0 7"/></svg>;
+    case"fact":return <svg {...p}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>;
+    case"perf":return <svg {...p}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>;
+    case"bell":return <svg {...p}><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>;
+    default:return null;
+  }
+};
+const TABS=[{ico:"dash",label:"Dashboard"},{ico:"pipe",label:"Pipeline"},{ico:"leads",label:"Leads"},{ico:"fact",label:"Facturation"},{ico:"perf",label:"Perfs"},{ico:"bell",label:"Relances"}];
 const PIPE=[
   {title:"Leads",items:[{name:"Boulangerie Martin",val:"1 200 €",badge:"Nouveau",bg:"#EFF6FF",tc:"#2563EB"},{name:"Garage Lefort",val:"990 €",badge:"Nouveau",bg:"#EFF6FF",tc:"#2563EB"}]},
   {title:"Contacté",items:[{name:"Cabinet Durand",val:"2 500 €",badge:"Contacté",bg:"#F5F3FF",tc:"#7C3AED"}]},
@@ -565,7 +576,7 @@ const CRM=()=>{
           <div style={{background:C.bgCard,border:`1px solid ${C.border}`,borderRadius:20,overflow:"hidden",boxShadow:"0 8px 40px rgba(0,0,0,.08)"}}>
             <div style={{display:"flex",borderBottom:`1px solid ${C.border}`,overflowX:"auto",WebkitOverflowScrolling:"touch"}}>
               {TABS.map((t,i)=>(
-                <button key={i} onClick={()=>sT(i)} style={{padding:".8rem 1rem",fontSize:".78rem",border:"none",cursor:"pointer",background:"transparent",whiteSpace:"nowrap",flexShrink:0,color:tab===i?C.indigo:C.muted,fontWeight:tab===i?700:400,borderBottom:tab===i?`2px solid ${C.indigo}`:"2px solid transparent",transition:"color .2s"}}>{t}</button>
+                <button key={i} onClick={()=>sT(i)} style={{display:"flex",alignItems:"center",gap:".4rem",padding:".8rem 1rem",fontSize:".78rem",border:"none",cursor:"pointer",background:"transparent",whiteSpace:"nowrap",flexShrink:0,color:tab===i?C.indigo:C.muted,fontWeight:tab===i?700:500,borderBottom:tab===i?`2px solid ${C.indigo}`:"2px solid transparent",transition:"color .2s"}}><TabIcon n={t.ico}/>{t.label}</button>
               ))}
             </div>
             <div style={{padding:"1.5rem",overflowX:"auto",WebkitOverflowScrolling:"touch"}}>
@@ -686,6 +697,15 @@ const CRM=()=>{
 // Formulaire connecté à Google Apps Script (enregistre dans Google Sheet + envoie un email)
 const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyhnW2nVRFZbJf2-V6xJ_Sd43_xHwVrWy3agKv7ePLMcblLt-m7VtxRWgy2JTpyBlFT/exec";
 
+const SideIcon=({n})=>{
+  const p={width:17,height:17,viewBox:"0 0 24 24",fill:"none",stroke:"#fff",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};
+  switch(n){
+    case"bolt":return <svg {...p}><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>;
+    case"target":return <svg {...p}><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>;
+    case"shield":return <svg {...p}><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>;
+    default:return null;
+  }
+};
 const Contact=()=>{
   const[status,sStatus]=useState("idle"); // idle | sending | sent | error
   const[form,sForm]=useState({prenom:"",nom:"",email:"",tel:"",projet:"",message:""});
@@ -727,23 +747,25 @@ const Contact=()=>{
           <div className="ctc-grid" style={{display:"grid",gridTemplateColumns:"1.15fr .85fr",gap:0,maxWidth:980,borderRadius:22,overflow:"hidden",boxShadow:"0 12px 50px rgba(28,25,23,.1)",border:`1px solid ${C.border}`}}>
             <div style={{background:C.bgCard,padding:"clamp(1.5rem,5vw,2.75rem)",position:"relative"}}>
             {status==="sent"?(
-              <div style={{textAlign:"center",padding:"1.5rem .5rem",position:"relative",overflow:"hidden"}}>
-                {["8%","22%","38%","55%","70%","85%"].map((l,i)=>(
-                  <span key={i} style={{position:"absolute",top:-10,left:l,width:8,height:8,borderRadius:i%2?2:"50%",background:[C.indigo,C.gold,"#EC4899",C.success][i%4],animation:`confettiFall ${1.6+i*.2}s ${i*.12}s ease-in infinite`}}/>
-                ))}
-                <div style={{position:"relative",width:78,height:78,margin:"0 auto 1.5rem"}}>
-                  <span style={{position:"absolute",inset:0,borderRadius:"50%",border:`2px solid ${C.indigo}55`,animation:"ringExpand 1.8s ease-out infinite"}}/>
-                  <span style={{position:"absolute",inset:-6,borderRadius:"50%",background:`conic-gradient(${C.indigo},${C.gold},#EC4899,${C.indigo})`,opacity:.25,animation:"haloSpin 4s linear infinite"}}/>
-                  <div style={{position:"relative",width:78,height:78,background:`linear-gradient(135deg,${C.indigo},${C.gold})`,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",animation:"popIn .6s cubic-bezier(.22,1.4,.36,1) both, glowPulse 2.2s ease-in-out 1s infinite"}}>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{strokeDasharray:40,animation:"checkDraw .6s .35s ease-out both"}}><path d="M20 6 9 17l-5-5"/></svg>
-                  </div>
+              <div style={{textAlign:"center",padding:"2rem .5rem"}}>
+                <div style={{position:"relative",width:84,height:84,margin:"0 auto 1.5rem"}}>
+                  <span style={{position:"absolute",inset:0,borderRadius:"50%",border:`1.5px solid ${C.indigo}`,animation:"ringExpand 2s ease-out infinite"}}/>
+                  <svg width="84" height="84" viewBox="0 0 84 84" fill="none">
+                    <circle cx="42" cy="42" r="38" stroke={C.indigo} strokeWidth="3" strokeLinecap="round" style={{strokeDasharray:239,strokeDashoffset:239,animation:"circDraw .7s cubic-bezier(.65,0,.35,1) both"}}/>
+                    <path d="M26 43 37 54 59 31" stroke={C.indigo} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" style={{strokeDasharray:48,strokeDashoffset:48,animation:"checkDraw .4s .55s cubic-bezier(.65,0,.35,1) both"}}/>
+                  </svg>
                 </div>
-                <h3 style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.55rem",fontWeight:800,marginBottom:".6rem",background:`linear-gradient(270deg,${C.indigo},${C.gold},#EC4899,${C.indigo})`,backgroundSize:"300% 100%",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",animation:"gradTextAnim 4s ease infinite"}}>Merci {form.prenom} ! 🎉</h3>
-                <p style={{color:C.muted,lineHeight:1.7,maxWidth:380,margin:"0 auto"}}>
-                  Votre demande est bien arrivée. Je l'étudie personnellement et je vous réponds <strong style={{color:C.indigo}}>sous 24h</strong> — souvent bien plus vite.
+                <h3 style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.5rem",fontWeight:800,color:C.charcoal,marginBottom:".5rem",animation:"riseIn .5s .3s both"}}>Demande envoyée, {form.prenom}.</h3>
+                <p style={{color:C.muted,lineHeight:1.7,maxWidth:400,margin:"0 auto 1.75rem",animation:"riseIn .5s .42s both"}}>
+                  Je l'étudie personnellement et je reviens vers vous <strong style={{color:C.indigo}}>sous 24h</strong> — souvent bien avant.
                 </p>
-                <div style={{marginTop:"1.5rem",padding:".85rem 1.25rem",background:C.indigoLt,borderRadius:10,fontSize:".82rem",color:C.slate,display:"inline-block"}}>
-                  📩 Pensez à vérifier vos spams au cas où ma réponse s'y glisse.
+                <div style={{display:"flex",flexDirection:"column",gap:".6rem",maxWidth:330,margin:"0 auto",textAlign:"left"}}>
+                  {["Votre demande est bien enregistrée","Réponse personnelle, jamais automatisée","Pensez à vérifier vos spams au cas où"].map((t,i)=>(
+                    <div key={i} style={{display:"flex",alignItems:"center",gap:".6rem",fontSize:".84rem",color:C.slate,animation:`riseIn .5s ${.6+i*.12}s both`}}>
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={C.success} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}><path d="M20 6 9 17l-5-5"/></svg>
+                      {t}
+                    </div>
+                  ))}
                 </div>
               </div>
             ):(
@@ -781,12 +803,12 @@ const Contact=()=>{
               <div style={{position:"relative",zIndex:1}}>
                 <div style={{fontFamily:"'Poppins',sans-serif",fontWeight:800,fontSize:"1.15rem",marginBottom:"1.25rem"}}>Pourquoi me contacter ?</div>
                 {[
-                  {ico:"⚡",t:"Réponse rapide",d:"Sous 24h, parfois en quelques heures."},
-                  {ico:"🎯",t:"Échange direct",d:"Pas d'intermédiaire, pas de formulaire robotisé."},
-                  {ico:"🛡️",t:"Sans engagement",d:"On clarifie d'abord votre besoin réel."},
+                  {ico:"bolt",t:"Réponse rapide",d:"Sous 24h, parfois en quelques heures."},
+                  {ico:"target",t:"Échange direct",d:"Pas d'intermédiaire, pas de formulaire robotisé."},
+                  {ico:"shield",t:"Sans engagement",d:"On clarifie d'abord votre besoin réel."},
                 ].map((it,i)=>(
-                  <div key={i} style={{display:"flex",gap:".75rem",alignItems:"flex-start",marginBottom:"1.1rem"}}>
-                    <span style={{fontSize:"1.15rem",lineHeight:1}}>{it.ico}</span>
+                  <div key={i} style={{display:"flex",gap:".8rem",alignItems:"flex-start",marginBottom:"1.1rem"}}>
+                    <span style={{flexShrink:0,width:34,height:34,borderRadius:9,background:"rgba(255,255,255,.12)",border:"1px solid rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center"}}><SideIcon n={it.ico}/></span>
                     <div>
                       <div style={{fontWeight:700,fontSize:".9rem",marginBottom:".15rem"}}>{it.t}</div>
                       <div style={{fontSize:".8rem",opacity:.78,lineHeight:1.5}}>{it.d}</div>
