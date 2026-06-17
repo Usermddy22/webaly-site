@@ -716,8 +716,8 @@ const Contact=()=>{
   const upd=k=>e=>sForm(f=>({...f,[k]:e.target.value}));
 
   const submit=async()=>{
-    // Validation simple
-    if(!form.prenom||!form.email){sStatus("error");return;}
+    // Validation : prénom, email et téléphone obligatoires
+    if(!form.prenom||!form.email||!form.tel){sStatus("error");return;}
     sStatus("sending");
     try{
       await fetch(SCRIPT_URL,{
@@ -760,7 +760,7 @@ const Contact=()=>{
                   Je l'étudie personnellement et je reviens vers vous <strong style={{color:C.indigo}}>sous 24h</strong> — souvent bien avant.
                 </p>
                 <div style={{display:"flex",flexDirection:"column",gap:".6rem",maxWidth:330,margin:"0 auto",textAlign:"left"}}>
-                  {["Votre demande est bien enregistrée","Réponse personnelle, jamais automatisée","Pensez à vérifier vos spams au cas où"].map((t,i)=>(
+                  {["Votre demande est bien enregistrée","Une réponse adaptée à votre projet","Pensez à vérifier vos spams au cas où"].map((t,i)=>(
                     <div key={i} style={{display:"flex",alignItems:"center",gap:".6rem",fontSize:".84rem",color:C.slate,animation:`riseIn .5s ${.6+i*.12}s both`}}>
                       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={C.success} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}><path d="M20 6 9 17l-5-5"/></svg>
                       {t}
@@ -775,7 +775,7 @@ const Contact=()=>{
                   <div><label style={lS}>Nom</label><input value={form.nom} onChange={upd("nom")} placeholder="Dupont" style={iS} onFocus={onF} onBlur={onB}/></div>
                 </div>
                 <div style={{marginBottom:"1rem"}}><label style={lS}>Email *</label><input type="email" value={form.email} onChange={upd("email")} placeholder="vous@votreentreprise.fr" style={iS} onFocus={onF} onBlur={onB}/></div>
-                <div style={{marginBottom:"1rem"}}><label style={lS}>Téléphone</label><input type="tel" value={form.tel} onChange={upd("tel")} placeholder="06 00 00 00 00" style={iS} onFocus={onF} onBlur={onB}/></div>
+                <div style={{marginBottom:"1rem"}}><label style={lS}>Téléphone *</label><input type="tel" value={form.tel} onChange={upd("tel")} placeholder="06 00 00 00 00" style={iS} onFocus={onF} onBlur={onB}/></div>
                 <div style={{marginBottom:"1rem"}}>
                   <label style={lS}>Type de projet</label>
                   <select value={form.projet} onChange={upd("projet")} style={{...iS,cursor:"pointer"}}>
@@ -789,7 +789,7 @@ const Contact=()=>{
                 </div>
                 {status==="error"&&(
                   <div style={{marginBottom:"1rem",padding:".7rem 1rem",background:"#FEF2F2",border:`1px solid ${C.danger}33`,borderRadius:8,fontSize:".82rem",color:C.danger,fontWeight:600}}>
-                    {!form.prenom||!form.email?"Merci de renseigner au moins votre prénom et votre email.":"Une erreur est survenue. Réessayez ou contactez-moi directement par email."}
+                    {!form.prenom||!form.email||!form.tel?"Merci de renseigner votre prénom, votre email et votre téléphone.":"Une erreur est survenue. Réessayez ou contactez-moi directement par email."}
                   </div>
                 )}
                 <Btn s={{width:"100%",textAlign:"center",display:"block",opacity:status==="sending"?.7:1,pointerEvents:status==="sending"?"none":"auto"}} onClick={submit}>
