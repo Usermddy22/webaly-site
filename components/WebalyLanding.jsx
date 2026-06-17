@@ -693,6 +693,70 @@ const CRM=()=>{
   );
 };
 
+/* ─── IA ──────────────────────────────────────────────────── */
+const AIIcon=({n})=>{
+  const p={width:22,height:22,viewBox:"0 0 24 24",fill:"none",stroke:C.indigo,strokeWidth:1.8,strokeLinecap:"round",strokeLinejoin:"round"};
+  switch(n){
+    case"chat":return <svg {...p}><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.7L3 21l1.5-4.4A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>;
+    case"reco":return <svg {...p}><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>;
+    case"content":return <svg {...p}><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18z"/><path d="M2 2l7.6 7.6"/><circle cx="11" cy="11" r="2"/></svg>;
+    case"sort":return <svg {...p}><path d="M11 5h10M11 9h7M11 13h10M11 17h7"/><path d="m3 8 3-3 3 3M6 5v14"/></svg>;
+    case"mail":return <svg {...p}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>;
+    case"chart":return <svg {...p}><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></svg>;
+    default:return null;
+  }
+};
+const Spark=({s={}})=>(
+  <svg width="14" height="14" viewBox="0 0 24 24" fill={C.gold} style={s}><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg>
+);
+const AI_USES=[
+  {ico:"chat",t:"Assistant intelligent 24/7",d:"Un chatbot entraîné sur votre activité qui répond aux visiteurs, oriente vers la bonne offre et qualifie les demandes — même la nuit.",tags:["Vitrine","E-commerce"]},
+  {ico:"reco",t:"Recherche & recommandations",d:"Recherche en langage naturel et suggestions de produits personnalisées pour augmenter le panier moyen.",tags:["E-commerce"]},
+  {ico:"content",t:"Génération de contenu",d:"Fiches produits, articles de blog optimisés SEO et textes de pages rédigés dans votre ton, en quelques secondes.",tags:["Vitrine","E-commerce"]},
+  {ico:"sort",t:"Tri & priorisation des leads",d:"L'IA résume chaque demande entrante, détecte l'intention et fait remonter les leads les plus chauds en haut de votre pipeline.",tags:["CRM"]},
+  {ico:"mail",t:"Réponses & relances assistées",d:"Des brouillons d'emails personnalisés et des relances suggérées au bon moment — vous validez, l'IA prépare.",tags:["CRM"]},
+  {ico:"chart",t:"Synthèse & reporting",d:"Vos chiffres traduits en résumés clairs : tendances, points d'attention et prochaines actions, sans tableur à décrypter.",tags:["CRM"]},
+];
+const AICard=({u,d})=>{
+  const[r,v]=useInView();const[h,sH]=useState(false);
+  return(
+    <div ref={r} onMouseEnter={()=>sH(true)} onMouseLeave={()=>sH(false)}
+      style={{background:C.bgCard,border:`1px solid ${h?C.indigo:C.border}`,borderRadius:16,padding:"1.6rem",
+        opacity:v?1:0,transform:v?(h?"translateY(-5px)":"none"):"translateY(26px)",
+        transition:`opacity .6s ${d}s ease,transform .6s ${d}s ease,box-shadow .2s,border-color .2s`,
+        boxShadow:h?"0 14px 40px rgba(79,70,229,.12)":"0 2px 8px rgba(0,0,0,.04)",position:"relative",overflow:"hidden"}}>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",width:46,height:46,borderRadius:12,background:C.indigoLt,marginBottom:"1rem",position:"relative"}}>
+        <AIIcon n={u.ico}/>
+        <Spark s={{position:"absolute",top:-3,right:-3,filter:`drop-shadow(0 0 3px ${C.gold}88)`}}/>
+      </div>
+      <div style={{fontSize:"1rem",fontWeight:700,fontFamily:"'Poppins',sans-serif",color:C.charcoal,marginBottom:".45rem"}}>{u.t}</div>
+      <div style={{fontSize:".85rem",color:C.muted,lineHeight:1.7,marginBottom:"1rem"}}>{u.d}</div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:".4rem"}}>
+        {u.tags.map(tag=>(
+          <span key={tag} style={{fontSize:".66rem",fontWeight:700,letterSpacing:".3px",color:C.slate,background:C.bgAlt,border:`1px solid ${C.border}`,padding:".18rem .55rem",borderRadius:100}}>{tag}</span>
+        ))}
+      </div>
+    </div>
+  );
+};
+const AIShowcase=()=>(
+  <section id="ia" style={{padding:"5rem 1.5rem",background:C.bg}} className="spy pad">
+    <div style={{maxWidth:1100,margin:"0 auto"}}>
+      <FU><Chip>Intelligence artificielle</Chip></FU>
+      <FU d={.05}><H2>L'IA intégrée <span style={{color:C.indigo}}>là où elle vous fait gagner du temps</span></H2></FU>
+      <FU d={.1}><Sub>Pas de gadget. J'intègre l'intelligence artificielle de façon concrète et mesurée — sur une vitrine, une boutique ou un CRM — pour automatiser ce qui vous coûte des heures.</Sub></FU>
+      <div className="svc-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"1.2rem"}}>
+        {AI_USES.map((u,i)=><AICard key={i} u={u} d={i*.07}/>)}
+      </div>
+      <FU d={.1}>
+        <p style={{marginTop:"2rem",textAlign:"center",fontSize:".85rem",color:C.subtle,lineHeight:1.7}}>
+          Chaque intégration reste <strong style={{color:C.slate}}>simple à utiliser</strong>, respectueuse de vos données et adaptée à votre budget. On commence petit, on fait grandir si ça apporte de la valeur.
+        </p>
+      </FU>
+    </div>
+  </section>
+);
+
 /* ─── Contact ─────────────────────────────────────────────── */
 // Formulaire connecté à Google Apps Script (enregistre dans Google Sheet + envoie un email)
 const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyhnW2nVRFZbJf2-V6xJ_Sd43_xHwVrWy3agKv7ePLMcblLt-m7VtxRWgy2JTpyBlFT/exec";
@@ -841,7 +905,7 @@ const Contact=()=>{
 /* ─── Nav ─────────────────────────────────────────────────── */
 const Nav=()=>{
   const[open,sO]=useState(false);
-  const links=[["Offres","#services"],["Méthode","#process"],["Motion","#animations"],["CRM","#crm"],["Contact","#contact"]];
+  const links=[["Offres","#services"],["Méthode","#process"],["Motion","#animations"],["CRM","#crm"],["IA","#ia"],["Contact","#contact"]];
   return(
     <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:200,background:"rgba(250,250,248,.94)",backdropFilter:"blur(16px)",borderBottom:`1px solid ${C.border}`}}>
       <div style={{maxWidth:1140,margin:"0 auto",padding:"0 1.5rem",height:64,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
@@ -875,7 +939,7 @@ const Nav=()=>{
 /* ─── Footer ──────────────────────────────────────────────── */
 const Footer=()=>{
   const[modal,sM]=useState(null);
-  const links=[["Offres","#services"],["Méthode","#process"],["Motion","#animations"],["CRM","#crm"],["Contact","#contact"]];
+  const links=[["Offres","#services"],["Méthode","#process"],["Motion","#animations"],["CRM","#crm"],["IA","#ia"],["Contact","#contact"]];
   return(
     <>
       <footer style={{background:C.charcoal,padding:"3rem 1.5rem",textAlign:"center"}}>
@@ -963,6 +1027,7 @@ export default function WeblyLanding(){
       <AnimShowcase/>
       <Local/>
       <CRM/>
+      <AIShowcase/>
       <Contact/>
       <Footer/>
     </>
