@@ -11,17 +11,17 @@ const EMAIL = "contact@webaly.fr";
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Webaly — Création de sites web & CRM sur mesure | Sarthe, Le Mans, Tours, Angers",
+    default: "Webaly — Création de sites web & CRM sur mesure | Sarthe, Le Mans, Tours",
     template: "%s | Webaly",
   },
   description:
-    "Création de sites web modernes, rapides et optimisés SEO pour les entreprises de la Sarthe, du Maine, de la Touraine et de l'Anjou. Sites vitrines, e-commerce et CRM sur mesure. Devis gratuit sous 24h.",
+    "Création de sites web modernes, rapides et optimisés SEO pour les entreprises de la Sarthe et de la Touraine, de Montval-sur-Loir au Mans et à Tours. Sites vitrines, e-commerce et CRM sur mesure. Devis gratuit sous 24h.",
   keywords: [
     "création site web Sarthe",
     "création site internet Le Mans",
     "agence web Tours",
-    "site web Angers",
-    "développeur web Pays de la Loire",
+    "création site web Montval-sur-Loir",
+    "développeur web Sarthe",
     "création site vitrine",
     "site e-commerce",
     "CRM sur mesure",
@@ -51,7 +51,7 @@ export const metadata = {
     siteName: BUSINESS_NAME,
     title: "Webaly — Création de sites web & CRM sur mesure",
     description:
-      "Sites web modernes et CRM sur mesure pour les entreprises de la Sarthe et des Pays de la Loire. Devis gratuit sous 24h.",
+      "Sites web modernes et CRM sur mesure pour les entreprises de la Sarthe, du Mans à Tours. Devis gratuit sous 24h.",
     images: [
       {
         url: "/og-image.jpg", // 1200x630px — présent dans /public
@@ -65,7 +65,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Webaly — Création de sites web & CRM sur mesure",
     description:
-      "Sites web modernes et CRM sur mesure pour les entreprises de la Sarthe et des Pays de la Loire.",
+      "Sites web modernes et CRM sur mesure pour les entreprises de la Sarthe, du Mans à Tours.",
     images: ["/og-image.jpg"],
   },
   icons: {
@@ -82,24 +82,23 @@ const jsonLd = {
   "@id": SITE_URL,
   name: BUSINESS_NAME,
   description:
-    "Création de sites web et CRM sur mesure pour les entreprises de la Sarthe et des Pays de la Loire.",
+    "Création de sites web et CRM sur mesure pour les entreprises de la Sarthe, du Mans à Tours.",
   url: SITE_URL,
   telephone: PHONE,
   email: EMAIL,
   priceRange: "€€",
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Montval-sur-Loir", // ⚠️ ta ville
-    postalCode: "72500", // ⚠️ ton code postal
+    addressLocality: "Montval-sur-Loir",
+    postalCode: "72500",
     addressRegion: "Sarthe",
     addressCountry: "FR",
   },
   areaServed: [
+    { "@type": "City", name: "Montval-sur-Loir" },
     { "@type": "City", name: "Le Mans" },
     { "@type": "City", name: "Tours" },
-    { "@type": "City", name: "Angers" },
     { "@type": "AdministrativeArea", name: "Sarthe" },
-    { "@type": "AdministrativeArea", name: "Pays de la Loire" },
   ],
   serviceType: [
     "Création de site web",

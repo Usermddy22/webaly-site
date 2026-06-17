@@ -493,13 +493,13 @@ const AnimShowcase=()=>(
 );
 
 /* ─── Local ──────────────────────────────────────────────── */
-const CITIES=["📍 Montval-sur-Loir","Le Mans","Tours","Angers","La Flèche","Sablé-sur-Sarthe","Château-du-Loir","Vendôme","Saumur","Laval","Alençon","Blois","Sarthe (72)","Maine-et-Loire (49)","Indre-et-Loire (37)","Pays de la Loire"];
+const CITIES=["📍 Montval-sur-Loir","Le Mans","Tours","La Flèche","Sablé-sur-Sarthe","Château-du-Loir","Vendôme","Sarthe (72)","Indre-et-Loire (37)"];
 const Local=()=>(
   <section style={{padding:"5rem 1.5rem",background:C.bgAlt}} className="spy pad">
     <div style={{maxWidth:1100,margin:"0 auto"}}>
       <FU><Chip>Territoire</Chip></FU>
       <FU d={.05}><H2>Un partenaire <span style={{color:C.indigo}}>ancré dans votre région</span></H2></FU>
-      <FU d={.1}><Sub>Basé en Sarthe, j'accompagne les entreprises du Maine, de la Touraine et de l'Anjou dans leur développement digital.</Sub></FU>
+      <FU d={.1}><Sub>Basé à Montval-sur-Loir, j'accompagne les entreprises de la Sarthe et de la Touraine, du Mans à Tours, dans leur développement digital.</Sub></FU>
       <FU d={.15}>
         <div style={{display:"flex",flexWrap:"wrap",gap:".6rem"}}>
           {CITIES.map((c,i)=>{
@@ -541,7 +541,7 @@ const LEADS=[
   {name:"Boulangerie Martin",city:"Le Mans",svc:"Site vitrine",bud:"1 200 €",status:"Nouveau",dc:"#2563EB",date:"Auj."},
   {name:"Garage Lefort",city:"La Flèche",svc:"Refonte",bud:"990 €",status:"Nouveau",dc:"#2563EB",date:"Hier"},
   {name:"Cabinet Durand",city:"Tours",svc:"Site + CRM",bud:"2 500 €",status:"Contacté",dc:"#7C3AED",date:"03/06"},
-  {name:"Resto Le Vallon",city:"Angers",svc:"E-commerce",bud:"1 900 €",status:"Devis",dc:"#D97706",date:"01/06"},
+  {name:"Resto Le Vallon",city:"Tours",svc:"E-commerce",bud:"1 900 €",status:"Devis",dc:"#D97706",date:"01/06"},
   {name:"Agence Immo Loire",city:"Le Mans",svc:"Site + CRM",bud:"3 200 €",status:"Signé",dc:"#16A34A",date:"28/05"},
 ];
 // Facturation redesignée — montants centrés, présentation carte soignée
@@ -884,7 +884,7 @@ const Footer=()=>{
         </div>
         <p style={{fontSize:".82rem",color:"rgba(255,255,255,.42)",lineHeight:1.8}}>
           Création de sites web & CRM sur mesure<br/>
-          Sarthe · Maine · Touraine · Anjou · Pays de la Loire
+          Sarthe · Le Mans · Tours · Touraine
         </p>
         <div style={{display:"flex",gap:"1.25rem",justifyContent:"center",marginTop:"1.5rem",flexWrap:"wrap"}}>
           {links.map(([l,h])=>(

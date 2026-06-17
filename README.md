@@ -1,6 +1,6 @@
 # Webaly — Site Next.js (optimisé SEO)
 
-Site de création web avec SEO local optimisé pour la Sarthe et les Pays de la Loire.
+Site de création web avec SEO local optimisé pour la Sarthe et la Touraine, du Mans à Tours.
 
 ## 🚀 Lancer en local
 
