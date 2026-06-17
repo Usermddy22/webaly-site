@@ -30,7 +30,7 @@ const useCount=(target,dur=1600,go=false)=>{
 };
 
 /* ─── Fonts & Keyframes ─────────────────────────────────── */
-const GFONT=`@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap');`;
+const GFONT=`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');`;
 
 const KF=`
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
@@ -58,7 +58,7 @@ const KF=`
 const GLOBAL=`
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:#FAFAF8;color:#1C1917;overflow-x:hidden;font-family:'Inter',sans-serif}
+body{background:#FAFAF8;color:#1C1917;overflow-x:hidden;font-family:'Poppins',sans-serif}
 a{text-decoration:none;color:inherit}
 button,input,select,textarea{font-family:inherit}
 .dn-mob{display:flex}
@@ -121,7 +121,7 @@ const Chip=({children})=>(
   </div>
 );
 const H2=({children})=>(
-  <h2 style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"clamp(1.7rem,4vw,2.8rem)",fontWeight:800,color:C.charcoal,lineHeight:1.12,marginBottom:"1rem",letterSpacing:"-.5px"}}>{children}</h2>
+  <h2 style={{fontFamily:"'Poppins',sans-serif",fontSize:"clamp(1.7rem,4vw,2.8rem)",fontWeight:800,color:C.charcoal,lineHeight:1.12,marginBottom:"1rem",letterSpacing:"-.5px"}}>{children}</h2>
 );
 const Sub=({children})=>(
   <p className="sub-w" style={{color:C.muted,fontSize:"1rem",lineHeight:1.8,maxWidth:540,marginBottom:"2.5rem"}}>{children}</p>
@@ -154,7 +154,7 @@ const AnimTitle=()=>{
   const[shown,sS]=useState(false);
   useEffect(()=>{const t=setTimeout(()=>sS(true),180);return()=>clearTimeout(t);},[]);
   return(
-    <h1 style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"clamp(2.4rem,7.5vw,5.4rem)",fontWeight:800,lineHeight:1.08,color:C.charcoal,letterSpacing:"-2px",marginBottom:"1.5rem"}}>
+    <h1 style={{fontFamily:"'Poppins',sans-serif",fontSize:"clamp(2.4rem,7.5vw,5.4rem)",fontWeight:800,lineHeight:1.08,color:C.charcoal,letterSpacing:"-2px",marginBottom:"1.5rem"}}>
       {lines.map((line,li)=>(
         <div key={li} style={{overflow:"hidden",display:"block"}}>
           {li===1
@@ -188,7 +188,7 @@ const HeroStats=()=>{
         <div key={i} style={{display:"flex",alignItems:"center",gap:".7rem",textAlign:"left",opacity:v?1:0,transform:v?"none":"translateY(14px)",transition:`opacity .6s ${i*.1}s ease,transform .6s ${i*.1}s ease`}}>
           <div style={{width:38,height:38,borderRadius:10,background:C.indigoLt,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{it.icon}</div>
           <div>
-            <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:".9rem",fontWeight:800,color:C.charcoal,lineHeight:1.1}}>{it.title}</div>
+            <div style={{fontFamily:"'Poppins',sans-serif",fontSize:".9rem",fontWeight:800,color:C.charcoal,lineHeight:1.1}}>{it.title}</div>
             <div style={{fontSize:".7rem",color:C.subtle,marginTop:".15rem"}}>{it.sub}</div>
           </div>
         </div>
@@ -268,7 +268,7 @@ const SC=({s,d})=>{
         </>
       )}
       <div style={{fontSize:"1.9rem",marginBottom:".9rem"}}>{s.icon}</div>
-      <div style={{fontSize:"1rem",fontWeight:700,fontFamily:"'Plus Jakarta Sans',sans-serif",color:C.charcoal,marginBottom:".45rem"}}>{s.name}</div>
+      <div style={{fontSize:"1rem",fontWeight:700,fontFamily:"'Poppins',sans-serif",color:C.charcoal,marginBottom:".45rem"}}>{s.name}</div>
       <div style={{fontSize:".85rem",color:C.muted,lineHeight:1.7}}>{s.desc}</div>
       <div style={{marginTop:"1.2rem",fontSize:".85rem",fontWeight:700,color:C.indigo}}>{s.price}</div>
     </div>
@@ -300,8 +300,8 @@ const PSt=({s,delay,last})=>{
   return(
     <div ref={r} style={{display:"flex",gap:"1.4rem",alignItems:"flex-start",paddingBottom:last?0:"2rem",position:"relative",opacity:v?1:0,transform:v?"none":"translateX(-22px)",transition:`opacity .65s ${delay}s ease,transform .65s ${delay}s ease`}}>
       {!last&&<div style={{position:"absolute",left:19,top:42,bottom:0,width:2,background:`linear-gradient(180deg,${C.indigo},${C.indigoLt})`}}/>}
-      <div style={{width:40,height:40,borderRadius:"50%",background:C.indigo,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:".75rem",fontWeight:800,flexShrink:0,zIndex:1,boxShadow:"0 4px 16px rgba(79,70,229,.32)"}}>{s.n}</div>
-      <div><h3 style={{fontSize:"1rem",fontWeight:700,fontFamily:"'Plus Jakarta Sans',sans-serif",color:C.charcoal,marginBottom:".3rem"}}>{s.t}</h3><p style={{fontSize:".875rem",color:C.muted,lineHeight:1.7}}>{s.d}</p></div>
+      <div style={{width:40,height:40,borderRadius:"50%",background:C.indigo,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Poppins',sans-serif",fontSize:".75rem",fontWeight:800,flexShrink:0,zIndex:1,boxShadow:"0 4px 16px rgba(79,70,229,.32)"}}>{s.n}</div>
+      <div><h3 style={{fontSize:"1rem",fontWeight:700,fontFamily:"'Poppins',sans-serif",color:C.charcoal,marginBottom:".3rem"}}>{s.t}</h3><p style={{fontSize:".875rem",color:C.muted,lineHeight:1.7}}>{s.d}</p></div>
     </div>
   );
 };
@@ -344,7 +344,7 @@ const DemoScrollReveal=({vis})=>(
     ].map((b,i)=>(
       <div key={i} style={{height:b.h,borderRadius:b.r,background:b.bg,width:b.w,opacity:vis?1:0,transform:vis?"none":`translateY(${10+i*7}px)`,transition:`all .55s ${b.d}s cubic-bezier(.22,1,.36,1)`,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden",flexShrink:0}}>
         {b.isImg&&<div style={{width:"100%",height:"100%",background:`repeating-linear-gradient(45deg,rgba(79,70,229,.06) 0px,rgba(79,70,229,.06) 4px,transparent 4px,transparent 12px)`,display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontSize:9,color:C.indigo,fontWeight:600,letterSpacing:1}}>HERO IMAGE</span></div>}
-        {b.lbl&&<span style={{color:"#fff",fontSize:10,fontWeight:700,fontFamily:"'Plus Jakarta Sans',sans-serif"}}>{b.lbl}</span>}
+        {b.lbl&&<span style={{color:"#fff",fontSize:10,fontWeight:700,fontFamily:"'Poppins',sans-serif"}}>{b.lbl}</span>}
       </div>
     ))}
   </div>
@@ -397,10 +397,10 @@ const DemoCounter=({vis})=>{
             strokeDasharray={circ} strokeDashoffset={vis?offset:circ} strokeLinecap="round"
             style={{transition:"stroke-dashoffset 1.8s .1s cubic-bezier(.22,1,.36,1)",transformOrigin:"50% 50%",transform:"rotate(-90deg)"}}/>
         </svg>
-        <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:".9rem",fontWeight:800,color:C.indigo}}>{val}%</div>
+        <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Poppins',sans-serif",fontSize:".9rem",fontWeight:800,color:C.indigo}}>{val}%</div>
       </div>
       <div>
-        <div style={{fontSize:".8rem",fontWeight:700,color:C.charcoal,fontFamily:"'Plus Jakarta Sans',sans-serif"}}>Satisfaction</div>
+        <div style={{fontSize:".8rem",fontWeight:700,color:C.charcoal,fontFamily:"'Poppins',sans-serif"}}>Satisfaction</div>
         <div style={{fontSize:".72rem",color:C.subtle,marginTop:".15rem"}}>clients 2024</div>
       </div>
     </div>
@@ -414,7 +414,7 @@ const DemoMicro=()=>{
     <div style={{display:"flex",flexDirection:"column",gap:8,width:"100%"}}>
       {[{l:"Planifier un appel",fill:true},{l:"Voir les réalisations",fill:false}].map((b,i)=>(
         <div key={i} onMouseEnter={()=>sH(i)} onMouseLeave={()=>sH(null)} onClick={()=>i===0&&sA(v=>!v)}
-          style={{padding:"9px 14px",borderRadius:9,background:h===i?(b.fill?C.indigo:C.indigoLt):(b.fill?"transparent":C.bgAlt),border:`1.5px solid ${(h===i||b.fill)?C.indigo:C.border}`,color:h===i?(b.fill?"#fff":C.indigo):(b.fill?C.indigo:C.muted),fontSize:11,fontWeight:700,textAlign:"center",cursor:"pointer",transition:"all .18s cubic-bezier(.22,1,.36,1)",transform:h===i?"translateY(-2px)":"none",boxShadow:h===i&&b.fill?"0 8px 22px rgba(79,70,229,.28)":"none",fontFamily:"'Plus Jakarta Sans',sans-serif",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+          style={{padding:"9px 14px",borderRadius:9,background:h===i?(b.fill?C.indigo:C.indigoLt):(b.fill?"transparent":C.bgAlt),border:`1.5px solid ${(h===i||b.fill)?C.indigo:C.border}`,color:h===i?(b.fill?"#fff":C.indigo):(b.fill?C.indigo:C.muted),fontSize:11,fontWeight:700,textAlign:"center",cursor:"pointer",transition:"all .18s cubic-bezier(.22,1,.36,1)",transform:h===i?"translateY(-2px)":"none",boxShadow:h===i&&b.fill?"0 8px 22px rgba(79,70,229,.28)":"none",fontFamily:"'Poppins',sans-serif",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
           {i===0&&<span style={{width:6,height:6,borderRadius:"50%",background:h===0?"#fff":C.success,flexShrink:0,transition:".2s"}}/>}
           {i===0&&active?"Envoi en cours…":b.l}
         </div>
@@ -426,7 +426,7 @@ const DemoMicro=()=>{
 /* Demo F — Gradient typographie animé */
 const DemoGradText=()=>(
   <div style={{textAlign:"center",width:"100%"}}>
-    <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"clamp(1.1rem,3vw,1.5rem)",background:`linear-gradient(270deg,${C.indigo},${C.gold},#EC4899,${C.indigo})`,backgroundSize:"300% 100%",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",animation:"gradTextAnim 3.5s ease infinite",letterSpacing:"-1px",lineHeight:1.1}}>
+    <div style={{fontFamily:"'Poppins',sans-serif",fontWeight:800,fontSize:"clamp(1.1rem,3vw,1.5rem)",background:`linear-gradient(270deg,${C.indigo},${C.gold},#EC4899,${C.indigo})`,backgroundSize:"300% 100%",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",animation:"gradTextAnim 3.5s ease infinite",letterSpacing:"-1px",lineHeight:1.1}}>
       Webaly
     </div>
     <div style={{marginTop:8,height:2,background:`linear-gradient(90deg,${C.indigo},${C.gold},#EC4899)`,borderRadius:100,transformOrigin:"left",animation:"lineExpand 2s ease-in-out infinite alternate"}}/>
@@ -454,7 +454,7 @@ const DCard=({card,i})=>{
       style={{background:C.bgCard,border:`1.5px solid ${h?C.indigo:C.border}`,borderRadius:16,padding:"1.5rem",opacity:v?1:0,transform:v?(h?"translateY(-6px)":"none"):"translateY(26px)",transition:`opacity .6s ${i*.08}s ease,transform .6s ${i*.08}s ease,border-color .2s,box-shadow .2s`,boxShadow:h?"0 16px 44px rgba(79,70,229,.11)":"0 2px 8px rgba(0,0,0,.04)",cursor:"default",display:"flex",flexDirection:"column",gap:"1rem"}}>
       <div style={{minHeight:90,display:"flex",alignItems:"center"}}>{card.demo(v)}</div>
       <div>
-        <div style={{fontSize:".875rem",fontWeight:700,color:C.charcoal,fontFamily:"'Plus Jakarta Sans',sans-serif",marginBottom:".2rem"}}>{card.label}</div>
+        <div style={{fontSize:".875rem",fontWeight:700,color:C.charcoal,fontFamily:"'Poppins',sans-serif",marginBottom:".2rem"}}>{card.label}</div>
         <div style={{fontSize:".78rem",color:C.subtle}}>{card.sub}</div>
       </div>
     </div>
@@ -473,7 +473,7 @@ const AnimShowcase=()=>(
       <FU d={.35}>
         <div style={{marginTop:"2.5rem",background:C.indigoLt,border:`1.5px solid rgba(79,70,229,.18)`,borderRadius:16,padding:"clamp(1.4rem,4vw,2rem) clamp(1.4rem,5vw,2.5rem)",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:"1rem"}}>
           <div>
-            <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"clamp(.95rem,2.5vw,1.15rem)",color:C.charcoal,marginBottom:".4rem"}}>Prêt à avoir un site qui travaille pour vous&nbsp;?</div>
+            <div style={{fontFamily:"'Poppins',sans-serif",fontWeight:800,fontSize:"clamp(.95rem,2.5vw,1.15rem)",color:C.charcoal,marginBottom:".4rem"}}>Prêt à avoir un site qui travaille pour vous&nbsp;?</div>
             <div style={{fontSize:".875rem",color:C.muted,maxWidth:420}}>Chaque animation, chaque interaction est développée sur mesure — pour votre identité, votre audience, vos objectifs.</div>
           </div>
           <Btn href="#contact" s={{flexShrink:0}}>Démarrer mon projet →</Btn>
@@ -564,7 +564,7 @@ const CRM=()=>{
                   <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(110px,1fr))",gap:"1rem",marginBottom:"1.25rem"}}>
                     {[{v:"12",l:"Leads ce mois",t:"↑ +4 vs mois dernier",tc:C.success},{v:"3",l:"Devis en attente",t:"→ À relancer",tc:C.warn},{v:"8 400 €",l:"CA ce mois",t:"↑ +22%",tc:C.success},{v:"67 %",l:"Conversion",t:"↑ +5 pts",tc:C.success}].map((k,i)=>(
                       <div key={i} style={{background:C.bgAlt,border:`1px solid ${C.border}`,borderRadius:12,padding:"1rem"}}>
-                        <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"clamp(1.2rem,3vw,1.5rem)",fontWeight:800,color:C.indigo}}>{k.v}</div>
+                        <div style={{fontFamily:"'Poppins',sans-serif",fontSize:"clamp(1.2rem,3vw,1.5rem)",fontWeight:800,color:C.indigo}}>{k.v}</div>
                         <div style={{fontSize:".7rem",color:C.subtle,marginTop:".2rem"}}>{k.l}</div>
                         <div style={{fontSize:".7rem",color:k.tc,marginTop:".2rem",fontWeight:600}}>{k.t}</div>
                       </div>
@@ -614,7 +614,7 @@ const CRM=()=>{
                     {[{lbl:"Total encaissé",val:"3 700 €",c:C.success,bg:"#ECFDF5"},{lbl:"En attente",val:"2 690 €",c:C.warn,bg:"#FFFBEB"}].map((k,i)=>(
                       <div key={i} style={{background:k.bg,borderRadius:12,padding:"1rem 1.25rem",textAlign:"center"}}>
                         <div style={{fontSize:".7rem",color:C.subtle,marginBottom:".3rem",letterSpacing:".5px",textTransform:"uppercase"}}>{k.lbl}</div>
-                        <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"1.5rem",fontWeight:800,color:k.c}}>{k.val}</div>
+                        <div style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.5rem",fontWeight:800,color:k.c}}>{k.val}</div>
                       </div>
                     ))}
                   </div>
@@ -628,7 +628,7 @@ const CRM=()=>{
                         <div style={{fontSize:".72rem",color:C.muted,marginTop:".08rem"}}>{inv.svc}</div>
                       </div>
                       <div style={{display:"flex",alignItems:"center",gap:".6rem",padding:".8rem .9rem",borderLeft:`1px solid ${C.border}`,flexShrink:0,minWidth:0}}>
-                        <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"1.05rem",fontWeight:800,color:C.charcoal,whiteSpace:"nowrap"}}>{inv.amt} €</span>
+                        <span style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.05rem",fontWeight:800,color:C.charcoal,whiteSpace:"nowrap"}}>{inv.amt} €</span>
                         <span style={{fontSize:".68rem",fontWeight:700,padding:".22rem .55rem",borderRadius:6,background:inv.sbg,color:inv.sc,whiteSpace:"nowrap",flexShrink:0}}>{inv.st}</span>
                       </div>
                     </div>
@@ -643,7 +643,7 @@ const CRM=()=>{
                       <div style={{background:C.borderLt,borderRadius:100,height:6,overflow:"hidden"}}>
                         <div style={{height:"100%",borderRadius:100,background:`linear-gradient(90deg,${C.indigo},${C.gold})`,width:`${p.pct}%`,animation:"barGrow 1.1s ease both"}}/>
                       </div>
-                      <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"1.1rem",fontWeight:800,color:C.indigo,marginTop:".5rem"}}>{p.val}</div>
+                      <div style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.1rem",fontWeight:800,color:C.indigo,marginTop:".5rem"}}>{p.val}</div>
                     </div>
                   ))}
                 </div>
@@ -720,7 +720,7 @@ const Contact=()=>{
                 <div style={{width:64,height:64,background:`linear-gradient(135deg,${C.indigo},${C.gold})`,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 1.5rem",animation:"glowPulse 2s ease-in-out infinite"}}>
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                 </div>
-                <h3 style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"1.4rem",fontWeight:800,color:C.charcoal,marginBottom:".6rem"}}>Merci {form.prenom} ! 🎉</h3>
+                <h3 style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.4rem",fontWeight:800,color:C.charcoal,marginBottom:".6rem"}}>Merci {form.prenom} ! 🎉</h3>
                 <p style={{color:C.muted,lineHeight:1.7,maxWidth:380,margin:"0 auto"}}>
                   Votre demande est bien arrivée. Je l'étudie personnellement et je vous réponds <strong style={{color:C.indigo}}>sous 24h</strong> — souvent bien plus vite.
                 </p>
@@ -771,7 +771,7 @@ const Nav=()=>{
   return(
     <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:200,background:"rgba(250,250,248,.94)",backdropFilter:"blur(16px)",borderBottom:`1px solid ${C.border}`}}>
       <div style={{maxWidth:1140,margin:"0 auto",padding:"0 1.5rem",height:64,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <a href="#hero" onClick={e=>scrollToId(e,"#hero")} style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"1.3rem",letterSpacing:"-.5px",color:C.charcoal,cursor:"pointer"}}>
+        <a href="#hero" onClick={e=>scrollToId(e,"#hero")} style={{fontFamily:"'Poppins',sans-serif",fontWeight:800,fontSize:"1.3rem",letterSpacing:"-.5px",color:C.charcoal,cursor:"pointer"}}>
           Web<span style={{color:C.indigo}}>aly</span>
         </a>
         <ul className="dn-mob" style={{gap:"1.75rem",listStyle:"none"}}>
@@ -805,7 +805,7 @@ const Footer=()=>{
   return(
     <>
       <footer style={{background:C.charcoal,padding:"3rem 1.5rem",textAlign:"center"}}>
-        <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"1.35rem",fontWeight:800,color:"#fff",marginBottom:".75rem",letterSpacing:"-.5px"}}>
+        <div style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.35rem",fontWeight:800,color:"#fff",marginBottom:".75rem",letterSpacing:"-.5px"}}>
           Web<span style={{color:"#A5B4FC"}}>aly</span>
         </div>
         <p style={{fontSize:".82rem",color:"rgba(255,255,255,.42)",lineHeight:1.8}}>
@@ -826,7 +826,7 @@ const Footer=()=>{
         <div onClick={()=>sM(null)} style={{position:"fixed",inset:0,zIndex:1000,background:"rgba(28,25,23,.55)",backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center",padding:"1.5rem"}}>
           <div onClick={e=>e.stopPropagation()} style={{background:C.bgCard,borderRadius:18,maxWidth:560,width:"100%",maxHeight:"82vh",overflowY:"auto",boxShadow:"0 24px 80px rgba(0,0,0,.3)"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"1.5rem 1.75rem",borderBottom:`1px solid ${C.border}`,position:"sticky",top:0,background:C.bgCard}}>
-              <h3 style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:"1.1rem",fontWeight:800,color:C.charcoal}}>{modal==="legal"?"Mentions légales":"Politique de confidentialité"}</h3>
+              <h3 style={{fontFamily:"'Poppins',sans-serif",fontSize:"1.1rem",fontWeight:800,color:C.charcoal}}>{modal==="legal"?"Mentions légales":"Politique de confidentialité"}</h3>
               <button onClick={()=>sM(null)} style={{background:C.bgAlt,border:"none",width:30,height:30,borderRadius:8,cursor:"pointer",fontSize:"1rem",color:C.muted,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
             </div>
             <div style={{padding:"1.75rem",fontSize:".85rem",color:C.slate,lineHeight:1.8}}>
