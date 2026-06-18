@@ -248,13 +248,25 @@ const Hero=()=>{
 // Toutes les cartes utilisent la même palette — pas de mise en avant bleue isolée.
 // La carte vedette ("star") utilise charcoal profond, sobre et premium.
 const SVCS=[
-  {icon:"🌐",name:"Site vitrine",desc:"Un site rapide, optimisé SEO et animé qui représente votre activité avec professionnalisme.",price:"À partir de 990 €"},
-  {icon:"🛒",name:"E-commerce",desc:"Boutique en ligne fluide avec tunnel d'achat optimisé, paiement sécurisé et back-office clair.",price:"À partir de 1 900 €"},
-  {icon:"◈",name:"Site + CRM intégré",desc:"Votre vitrine digitale et votre outil de pilotage réunis. Leads, devis, facturation : tout en un.",price:"À partir de 2 500 €",star:true},
-  {icon:"♻️",name:"Refonte stratégique",desc:"Diagnostic complet, nouveau design, performances améliorées et référencement renforcé.",price:"À partir de 790 €"},
-  {icon:"🔍",name:"Référencement local",desc:"Visibilité maximale sur votre territoire : Google, cartographie, citations locales.",price:"À partir de 390 €"},
-  {icon:"⚙",name:"Maintenance & évolution",desc:"Je reste partenaire après la mise en ligne. Votre site grandit avec votre activité.",price:"Dès 49 €/mois"},
+  {icon:"globe",name:"Site vitrine",desc:"Un site rapide, optimisé SEO et animé qui représente votre activité avec professionnalisme.",price:"À partir de 990 €"},
+  {icon:"cart",name:"E-commerce",desc:"Boutique en ligne fluide avec tunnel d'achat optimisé, paiement sécurisé et back-office clair.",price:"À partir de 1 900 €"},
+  {icon:"diamond",name:"Site + CRM intégré",desc:"Votre vitrine digitale et votre outil de pilotage réunis. Leads, devis, facturation : tout en un.",price:"À partir de 2 500 €",star:true},
+  {icon:"refresh",name:"Refonte stratégique",desc:"Diagnostic complet, nouveau design, performances améliorées et référencement renforcé.",price:"À partir de 790 €"},
+  {icon:"search",name:"Référencement local",desc:"Visibilité maximale sur votre territoire : Google, cartographie, citations locales.",price:"À partir de 390 €"},
+  {icon:"gear",name:"Maintenance & évolution",desc:"Je reste partenaire après la mise en ligne. Votre site grandit avec votre activité.",price:"Dès 49 €/mois"},
 ];
+const SvcIcon=({n})=>{
+  const p={width:22,height:22,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"};
+  switch(n){
+    case"globe":return<svg {...p}><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a13 13 0 0 1 0 18M12 3a13 13 0 0 0 0 18"/></svg>;
+    case"cart":return<svg {...p}><circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.4" fill="currentColor" stroke="none"/><path d="M2 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7H6"/></svg>;
+    case"diamond":return<svg {...p}><path d="M6 3h12l4 6-10 12L2 9Z"/><path d="M2 9h20M9 3l1 6-2 12M15 3l-1 6 2 12"/></svg>;
+    case"refresh":return<svg {...p}><path d="M21 12a9 9 0 0 1-15.5 6.4M3 12a9 9 0 0 1 15.5-6.4"/><path d="M21 4v5h-5M3 20v-5h5"/></svg>;
+    case"search":return<svg {...p}><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>;
+    case"gear":return<svg {...p}><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-1.7-1L15 3h-4l-.3 2.4a7.6 7.6 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 1.7 1L11 21h4l.3-2.4a7.6 7.6 0 0 0 1.7-1l2.4 1 2-3.4Z"/></svg>;
+    default:return null;
+  }
+};
 const SC=({s,d})=>{
   const[r,v]=useInView();const[h,sH]=useState(false);
   return(
@@ -276,7 +288,7 @@ const SC=({s,d})=>{
           <div style={{position:"absolute",top:12,right:14,background:C.indigo,color:"#fff",fontSize:".6rem",fontWeight:700,letterSpacing:"1px",padding:".18rem .55rem",borderRadius:100,textTransform:"uppercase"}}>Recommandé</div>
         </>
       )}
-      <div style={{fontSize:"1.9rem",marginBottom:".9rem"}}>{s.icon}</div>
+      <div style={{width:42,height:42,borderRadius:11,background:s.star?"rgba(79,70,229,.14)":C.indigoLt,color:C.indigo,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:".9rem"}}><SvcIcon n={s.icon}/></div>
       <div style={{fontSize:"1rem",fontWeight:700,fontFamily:"'Poppins',sans-serif",color:C.charcoal,marginBottom:".45rem"}}>{s.name}</div>
       <div style={{fontSize:".85rem",color:C.muted,lineHeight:1.7}}>{s.desc}</div>
       <div style={{marginTop:"1.2rem",fontSize:".85rem",fontWeight:700,color:C.indigo}}>{s.price}</div>
