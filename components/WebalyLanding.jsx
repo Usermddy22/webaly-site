@@ -80,15 +80,15 @@ button,input,select,textarea{font-family:inherit}
   .only-mob{display:flex!important}
   .g1{grid-template-columns:1fr!important}
   .pad{padding-left:1.25rem!important;padding-right:1.25rem!important}
-  .spy{padding-top:2.5rem!important;padding-bottom:2.5rem!important}
-  .sub-w{max-width:100%!important}
+  .spy{padding-top:1.85rem!important;padding-bottom:1.85rem!important}
+  .sub-w{max-width:100%!important;margin-bottom:1.4rem!important}
   .pipe-g{grid-template-columns:1fr 1fr!important}
   .perf-g{grid-template-columns:1fr!important}
   .inv-row{flex-direction:column!important;align-items:flex-start!important}
   .inv-amt{font-size:1.4rem!important}
-  #hero{min-height:auto!important;padding:5.5rem 1.25rem 2.75rem!important}
-  .svc-grid{gap:.85rem!important}
-  .g1{gap:1.25rem!important}
+  #hero{min-height:auto!important;padding:4.5rem 1.25rem 2.25rem!important}
+  .svc-grid{gap:.7rem!important}
+  .g1{gap:1rem!important}
 }
 @media(max-width:560px){
   .svc-grid{grid-template-columns:1fr!important}
