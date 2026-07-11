@@ -57,6 +57,8 @@ const KF=`
 @keyframes circDraw{to{stroke-dashoffset:0}}
 @keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes ringExpand{0%{transform:scale(.85);opacity:.5}100%{transform:scale(1.7);opacity:0}}
+@keyframes btnShine{0%{left:-60%}60%,100%{left:130%}}
+@keyframes gradFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 `;
 
 const GLOBAL=`
@@ -67,6 +69,19 @@ a{text-decoration:none;color:inherit}
 button,input,select,textarea{font-family:inherit}
 .dn-mob{display:flex}
 .only-mob{display:none}
+/* ─ DA Webaly : couche d'animations globale ─ */
+@media(prefers-reduced-motion:no-preference){
+  /* Lien de nav : soulignement animé */
+  .nav-link{position:relative}
+  .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:100%;background:linear-gradient(90deg,#4F46E5,#F59E0B);border-radius:2px;transform:scaleX(0);transform-origin:right;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+  .nav-link:hover::after{transform:scaleX(1);transform-origin:left}
+  /* Bouton : reflet qui balaie */
+  .shine{position:relative;overflow:hidden}
+  .shine::before{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);pointer-events:none}
+  .shine:hover::before{animation:btnShine .85s cubic-bezier(.22,1,.36,1)}
+  /* Titre gradient animé (accent DA) */
+  .grad-accent{background:linear-gradient(90deg,#4F46E5,#7C6BF5,#F59E0B,#4F46E5);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:gradFlow 7s ease infinite}
+}
 @media(max-width:900px){
   .svc-grid{grid-template-columns:repeat(2,1fr)!important}
   .ctc-grid{grid-template-columns:1fr!important}
@@ -123,7 +138,7 @@ const Btn=({children,href,onClick,v="fill",s={}})=>{
   const out={background:h?C.indigoLt:"transparent",color:C.indigo,border:`1.5px solid ${C.indigo}`,transform:h?"translateY(-2px)":"none"};
   const Tag=href?"a":"button";
   const handleClick=e=>{ if(href&&href.startsWith("#"))scrollToId(e,href); if(onClick)onClick(e); };
-  return <Tag href={href} onClick={handleClick} style={{...base,...(v==="fill"?fill:out),...s}} onMouseEnter={()=>sH(true)} onMouseLeave={()=>sH(false)}>{children}</Tag>;
+  return <Tag href={href} onClick={handleClick} className="shine" style={{...base,...(v==="fill"?fill:out),...s}} onMouseEnter={()=>sH(true)} onMouseLeave={()=>sH(false)}>{children}</Tag>;
 };
 
 const Chip=({children})=>(
@@ -170,7 +185,7 @@ const AnimTitle=()=>{
       {lines.map((line,li)=>(
         <div key={li} style={{overflow:"hidden",display:"block"}}>
           {li===1
-            ? <span style={{background:`linear-gradient(90deg,${C.indigo},${C.gold})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",display:"inline-block",opacity:shown?1:0,transform:shown?"none":"translateY(40px)",transition:`opacity .55s .28s cubic-bezier(.22,1,.36,1),transform .55s .28s cubic-bezier(.22,1,.36,1)`}}>{line}</span>
+            ? <span className="grad-accent" style={{display:"inline-block",opacity:shown?1:0,transform:shown?"none":"translateY(40px)",transition:`opacity .55s .28s cubic-bezier(.22,1,.36,1),transform .55s .28s cubic-bezier(.22,1,.36,1)`}}>{line}</span>
             : <span style={{display:"inline-block",opacity:shown?1:0,transform:shown?"none":"translateY(40px)",transition:`opacity .5s .04s cubic-bezier(.22,1,.36,1),transform .5s .04s cubic-bezier(.22,1,.36,1)`}}>{line}</span>
           }
         </div>
@@ -917,22 +932,39 @@ const Contact=()=>{
   );
 };
 
+/* ─── Barre de progression de défilement ─────────────────── */
+const ScrollProgress=()=>{
+  const[p,sP]=useState(0);
+  useEffect(()=>{
+    const on=()=>{const h=document.documentElement.scrollHeight-window.innerHeight;sP(h>0?window.scrollY/h:0);};
+    on();window.addEventListener("scroll",on,{passive:true});window.addEventListener("resize",on);
+    return()=>{window.removeEventListener("scroll",on);window.removeEventListener("resize",on);};
+  },[]);
+  return <div style={{position:"fixed",top:0,left:0,right:0,height:3,zIndex:300,transformOrigin:"left",transform:`scaleX(${p})`,background:`linear-gradient(90deg,${C.indigo},${C.gold})`,transition:"transform .1s linear",pointerEvents:"none"}}/>;
+};
+
 /* ─── Nav ─────────────────────────────────────────────────── */
 const Nav=()=>{
   const[open,sO]=useState(false);
+  const[scr,sScr]=useState(false);
+  useEffect(()=>{
+    const on=()=>sScr(window.scrollY>12);
+    on();window.addEventListener("scroll",on,{passive:true});
+    return()=>window.removeEventListener("scroll",on);
+  },[]);
   const links=[["Offres","#services"],["Méthode","#process"],["Motion","#animations"],["CRM","#crm"],["IA","#ia"],["Contact","#contact"]];
   return(
-    <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:200,background:"rgba(250,250,248,.94)",backdropFilter:"blur(16px)",borderBottom:`1px solid ${C.border}`}}>
+    <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:200,background:scr?"rgba(250,250,248,.88)":"rgba(250,250,248,.94)",backdropFilter:"blur(16px)",borderBottom:`1px solid ${scr?C.border:"transparent"}`,boxShadow:scr?"0 6px 24px rgba(28,25,23,.06)":"none",transition:"box-shadow .3s,border-color .3s,background .3s"}}>
       <div style={{maxWidth:1140,margin:"0 auto",padding:"0 1.5rem",height:64,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
         <a href="#hero" onClick={e=>scrollToId(e,"#hero")} style={{fontFamily:"'Poppins',sans-serif",fontWeight:800,fontSize:"1.3rem",letterSpacing:"-.5px",color:C.charcoal,cursor:"pointer"}}>
           Web<span style={{color:C.indigo}}>aly</span>
         </a>
         <ul className="dn-mob" style={{gap:"1.75rem",listStyle:"none"}}>
           {links.map(([l,h])=>(
-            <li key={l}><a href={h} onClick={e=>scrollToId(e,h)} style={{color:C.muted,fontSize:".875rem",fontWeight:500,transition:"color .2s",cursor:"pointer"}} onMouseEnter={e=>e.target.style.color=C.charcoal} onMouseLeave={e=>e.target.style.color=C.muted}>{l}</a></li>
+            <li key={l}><a href={h} onClick={e=>scrollToId(e,h)} className="nav-link" style={{color:C.muted,fontSize:".875rem",fontWeight:500,transition:"color .2s",cursor:"pointer"}} onMouseEnter={e=>e.target.style.color=C.charcoal} onMouseLeave={e=>e.target.style.color=C.muted}>{l}</a></li>
           ))}
         </ul>
-        <a href="#contact" onClick={e=>scrollToId(e,"#contact")} className="dn-mob" style={{display:"inline-block",padding:".65rem 1.6rem",borderRadius:10,fontSize:".875rem",fontWeight:700,cursor:"pointer",background:C.indigo,color:"#fff",boxShadow:"0 4px 14px rgba(79,70,229,.18)",transition:"all .18s",lineHeight:1}} onMouseEnter={e=>{e.currentTarget.style.background=C.indigoDk;e.currentTarget.style.transform="translateY(-2px)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.indigo;e.currentTarget.style.transform="none"}}>Démarrer un projet</a>
+        <a href="#contact" onClick={e=>scrollToId(e,"#contact")} className="dn-mob shine" style={{display:"inline-block",padding:".65rem 1.6rem",borderRadius:10,fontSize:".875rem",fontWeight:700,cursor:"pointer",background:C.indigo,color:"#fff",boxShadow:"0 4px 14px rgba(79,70,229,.18)",transition:"all .18s",lineHeight:1}} onMouseEnter={e=>{e.currentTarget.style.background=C.indigoDk;e.currentTarget.style.transform="translateY(-2px)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.indigo;e.currentTarget.style.transform="none"}}>Démarrer un projet</a>
         <button className="only-mob" onClick={()=>sO(!open)} style={{background:"none",border:"none",cursor:"pointer",padding:".25rem",flexDirection:"column",gap:5,alignItems:"center",justifyContent:"center"}}>
           {[0,1,2].map(i=>(
             <span key={i} style={{display:"block",width:22,height:2,background:C.charcoal,borderRadius:2,transition:".25s",transform:open?(i===0?"rotate(45deg) translate(5px,5px)":i===2?"rotate(-45deg) translate(5px,-5px)":"none"):"none",opacity:open&&i===1?0:1}}/>
@@ -1034,6 +1066,7 @@ export default function WeblyLanding(){
   return(
     <>
       <style>{GFONT+KF+GLOBAL}</style>
+      <ScrollProgress/>
       <Nav/>
       <Hero/>
       <Services/>
