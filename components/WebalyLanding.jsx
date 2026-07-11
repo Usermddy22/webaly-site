@@ -159,18 +159,27 @@ const ParticleCanvas=()=>{
   const ref=useRef(null);
   useEffect(()=>{
     const c=ref.current;if(!c)return;
-    const ctx=c.getContext("2d");let W,H,pts=[],raf;
+    // Respecte la préférence "réduire les animations" : on n'anime pas du tout.
+    if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    const ctx=c.getContext("2d");let W,H,pts=[],raf=0,onScreen=true;
     const resize=()=>{W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;};
     resize();window.addEventListener("resize",resize);
-    for(let i=0;i<48;i++)pts.push({x:Math.random()*W||Math.random()*1200,y:Math.random()*H||Math.random()*700,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.6+.5});
+    for(let i=0;i<40;i++)pts.push({x:Math.random()*W||Math.random()*1200,y:Math.random()*H||Math.random()*700,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.6+.5});
     const draw=()=>{
       ctx.clearRect(0,0,W,H);
       pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle="rgba(79,70,229,.4)";ctx.fill();});
       for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<130){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(79,70,229,${.15*(1-d/130)})`;ctx.lineWidth=.7;ctx.stroke();}}
       raf=requestAnimationFrame(draw);
     };
-    draw();
-    return()=>{cancelAnimationFrame(raf);window.removeEventListener("resize",resize);};
+    // Ne tourne que quand le hero est visible ET l'onglet actif → plus de CPU inutile.
+    const stop=()=>{if(raf){cancelAnimationFrame(raf);raf=0;}};
+    const run=()=>{if(!raf&&onScreen&&!document.hidden)draw();};
+    const io=new IntersectionObserver(([e])=>{onScreen=e.isIntersecting;onScreen?run():stop();},{threshold:0});
+    io.observe(c);
+    const onVis=()=>{document.hidden?stop():run();};
+    document.addEventListener("visibilitychange",onVis);
+    run();
+    return()=>{stop();io.disconnect();window.removeEventListener("resize",resize);document.removeEventListener("visibilitychange",onVis);};
   },[]);
   return <canvas ref={ref} style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none"}}/>;
 };
@@ -236,7 +245,7 @@ const Hero=()=>{
 
       <div style={{position:"relative",zIndex:1,maxWidth:820,width:"100%"}}>
         {/* Accroche région — sobre et pro */}
-        <div style={{display:"inline-flex",alignItems:"center",gap:".5rem",background:"rgba(255,255,255,.88)",border:`1px solid ${C.border}`,padding:".35rem 1.1rem",borderRadius:100,fontSize:".75rem",color:C.slate,fontWeight:500,marginBottom:"2rem",boxShadow:"0 2px 16px rgba(0,0,0,.06)",animation:"floatY 4s ease-in-out infinite",backdropFilter:"blur(8px)"}}>
+        <div style={{display:"inline-flex",alignItems:"center",gap:".5rem",background:"rgba(255,255,255,.88)",border:`1px solid ${C.border}`,padding:".35rem 1.1rem",borderRadius:100,fontSize:".75rem",color:C.slate,fontWeight:500,marginBottom:"2rem",boxShadow:"0 2px 16px rgba(0,0,0,.06)",animation:"floatY 4s ease-in-out infinite"}}>
           <span style={{width:6,height:6,borderRadius:"50%",background:C.success,flexShrink:0,animation:"glowPulse 2s ease-in-out infinite"}}/>
           Création de sites web & CRM sur mesure
         </div>
@@ -903,8 +912,10 @@ const Contact=()=>{
               </div>
             )}
             </div>
-            <div className="ctc-side" style={{background:`linear-gradient(160deg,${C.indigoDk},${C.indigo})`,padding:"clamp(1.5rem,4vw,2.25rem)",color:"#fff",display:"flex",flexDirection:"column",justifyContent:"space-between",position:"relative",overflow:"hidden"}}>
-              <div style={{position:"absolute",top:-60,right:-60,width:180,height:180,borderRadius:"50%",background:"rgba(245,158,11,.18)",filter:"blur(10px)",animation:"floatY 5s ease-in-out infinite"}}/>
+            <div className="ctc-side" style={{background:`linear-gradient(160deg,${C.indigoDk} 0%,${C.indigo} 100%)`,padding:"clamp(1.5rem,4vw,2.25rem)",color:"#fff",display:"flex",flexDirection:"column",justifyContent:"space-between",position:"relative",overflow:"hidden"}}>
+              <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px)",backgroundSize:"18px 18px",opacity:.35,pointerEvents:"none"}}/>
+              <div style={{position:"absolute",top:-60,right:-60,width:180,height:180,borderRadius:"50%",background:"radial-gradient(circle,rgba(245,158,11,.28),transparent 70%)",pointerEvents:"none"}}/>
+              <div style={{position:"absolute",bottom:-70,left:-50,width:170,height:170,borderRadius:"50%",background:"radial-gradient(circle,rgba(165,180,252,.3),transparent 70%)",pointerEvents:"none"}}/>
               <div style={{position:"relative",zIndex:1}}>
                 <div style={{fontFamily:"'Poppins',sans-serif",fontWeight:800,fontSize:"1.15rem",marginBottom:"1.25rem"}}>Pourquoi me contacter ?</div>
                 {[
@@ -921,8 +932,17 @@ const Contact=()=>{
                   </div>
                 ))}
               </div>
-              <div style={{position:"relative",zIndex:1,paddingTop:"1.5rem",borderTop:"1px solid rgba(255,255,255,.18)",fontSize:".78rem",opacity:.85,lineHeight:1.6}}>
-                « Réponse claire, sans jargon, sous 24h. »
+              <div style={{position:"relative",zIndex:1,paddingTop:"1.35rem",borderTop:"1px solid rgba(255,255,255,.18)"}}>
+                <div style={{fontSize:".68rem",textTransform:"uppercase",letterSpacing:"1.2px",opacity:.6,marginBottom:".7rem",fontWeight:700}}>Ou directement</div>
+                {[
+                  {href:"mailto:contact@webaly.fr",label:"contact@webaly.fr",ico:<><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></>},
+                  {href:"tel:+33771555338",label:"07 71 55 53 38",ico:<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/>},
+                ].map((c,i)=>(
+                  <a key={i} href={c.href} style={{display:"flex",alignItems:"center",gap:".65rem",color:"#fff",fontSize:".85rem",fontWeight:600,padding:".35rem 0",opacity:.92,transition:"opacity .2s,transform .2s"}} onMouseEnter={e=>{e.currentTarget.style.opacity="1";e.currentTarget.style.transform="translateX(3px)"}} onMouseLeave={e=>{e.currentTarget.style.opacity=".92";e.currentTarget.style.transform="none"}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A5B4FC" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}>{c.ico}</svg>
+                    {c.label}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -934,13 +954,22 @@ const Contact=()=>{
 
 /* ─── Barre de progression de défilement ─────────────────── */
 const ScrollProgress=()=>{
-  const[p,sP]=useState(0);
+  const bar=useRef(null);
   useEffect(()=>{
-    const on=()=>{const h=document.documentElement.scrollHeight-window.innerHeight;sP(h>0?window.scrollY/h:0);};
+    let raf=0;
+    const on=()=>{
+      if(raf)return;
+      raf=requestAnimationFrame(()=>{
+        raf=0;
+        const h=document.documentElement.scrollHeight-window.innerHeight;
+        const p=h>0?Math.min(window.scrollY/h,1):0;
+        if(bar.current)bar.current.style.transform=`scaleX(${p})`;
+      });
+    };
     on();window.addEventListener("scroll",on,{passive:true});window.addEventListener("resize",on);
-    return()=>{window.removeEventListener("scroll",on);window.removeEventListener("resize",on);};
+    return()=>{window.removeEventListener("scroll",on);window.removeEventListener("resize",on);if(raf)cancelAnimationFrame(raf);};
   },[]);
-  return <div style={{position:"fixed",top:0,left:0,right:0,height:3,zIndex:300,transformOrigin:"left",transform:`scaleX(${p})`,background:`linear-gradient(90deg,${C.indigo},${C.gold})`,transition:"transform .1s linear",pointerEvents:"none"}}/>;
+  return <div ref={bar} style={{position:"fixed",top:0,left:0,right:0,height:3,zIndex:300,transformOrigin:"left",transform:"scaleX(0)",background:`linear-gradient(90deg,${C.indigo},${C.gold})`,pointerEvents:"none",willChange:"transform"}}/>;
 };
 
 /* ─── Nav ─────────────────────────────────────────────────── */
